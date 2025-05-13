@@ -18,17 +18,17 @@ class LibraryDB:
             )
         ''')
         self.conn.commit()
-        print("table 'books' created")
+        return "Table 'books' created."
         
-    def insert_book(self, author, title, gener, isbn , status ="available"):
+    def insert_book(self, author, title, genre, isbn, status="available"):
         self.cursor.execute('''
-            INSERT INTO books (author, title, status, gener, isbn)
-            VALUES (?, ? , ? , ? , ?)
-            ''', (author, title, status, gener, isbn))
+            INSERT INTO books (author, title, status, genre, isbn)
+            VALUES (?, ?, ?, ?, ?)
+        ''', (author, title, status, genre, isbn))
         self.conn.commit()
-        print(f"BOOK '{title}' added to library")
+        return f"Book '{title}' added to library."
+    
     def update_book_info(self, isbn, title=None, author=None, genre=None, status=None):
-        # Update book details using ISBN
         updates = []
         values = []
 
@@ -46,8 +46,7 @@ class LibraryDB:
             values.append(status)
 
         if not updates:
-            print("No fields to update.")
-            return
+            return "No fields to update."
 
         values.append(isbn)
         sql = f'''
@@ -57,28 +56,22 @@ class LibraryDB:
         '''
         self.cursor.execute(sql, values)
         self.conn.commit()
-        print(f"Book info updated for ISBN {isbn}.")
-
+        return f"Book info updated for ISBN {isbn}."
+    
     def view_books(self):
         self.cursor.execute("SELECT * FROM books")
         books = self.cursor.fetchall()
         if books:
-            for book in books:
-                print(book)
+            return books
         else:
-            print("No books found in the database.")
+            return "No books found in the database."
 
 
-        if _name_ == "_main_":
-         db = LibraryDB()
+if __name__ == "__main__":
+    db = LibraryDB()
 
-    
-        
-         db.insert_book("Python 101", "Michael Driscoll", "Programming", "9781234567890")
-         db.insert_book("Learning SQL", "John", "Programming", "9780987654321", "Available")
-
-   
-         db.update_book_info("9781234567890", author="M. Driscoll", status="Issued")
-
-    
-         db.view_books()
+    print(db.create_table())
+    print(db.insert_book("Michael Driscoll", "Python 101", "Programming", "9781234567890"))
+    print(db.insert_book("John", "Learning SQL", "Programming", "9780987654321", "Available"))
+    print(db.update_book_info("9781234567890", author="M. Driscoll", status="Issued"))
+    print(db.view_books())
