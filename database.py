@@ -1,5 +1,5 @@
 import sqlite3
-
+#add student database
 class LibraryDB:
     def __init__(self, db_name="library.db"):
         self.conn = sqlite3.connect(db_name)
