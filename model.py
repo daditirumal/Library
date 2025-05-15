@@ -1,15 +1,13 @@
 class Book:
-    def __init__(self, name, title, isbn, status="available"):
-        self.name = name 
+    def __init__(self, author, title, genre, isbn, status="available"):
+        self.author = author
         self.title = title
-        self.isbn = isbn   
-        self.status = status  
+        self.genre = genre
+        self.isbn = isbn
+        self.status = status
 
-    
-    def get_details(self):
-        return f"Book: {self.title} by {self.name} (ISBN: {self.isbn}, Status: {self.status})"
-
-if __name__ == "__main__":
-    # Creating an object of the Book class
-    book = Book(name="Michael Driscoll", title="Python 101", isbn="9781234567890")
-    print(book.get_details())
+class Student:
+    def __init__(self, student_id, name, section):
+        self.student_id = student_id
+        self.name = name
+        self.section = section
